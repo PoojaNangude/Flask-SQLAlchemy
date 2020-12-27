@@ -4,8 +4,10 @@ from flask_jwt import JWT
 from security import authenticate, identity
 from resources.item import Item, ItemList
 from resources.user import UserRegister
+from db import db
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # what is this for??
 app.secret_key = 'secret'
 api = Api(app)
 
@@ -16,4 +18,5 @@ api.add_resource(ItemList, '/items')
 api.add_resource(UserRegister, '/register')
 
 if __name__ == '__main__':
+    db.init_app(app)
     app.run(port=5000, debug=True)
